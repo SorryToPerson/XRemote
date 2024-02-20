@@ -1,4 +1,4 @@
-const { BrowserWindow } = require('electron');
+const { BrowserWindow, desktopCapturer } = require('electron');
 const isDev = require('electron-is-dev');
 const path = require('path');
 
@@ -26,6 +26,11 @@ function create() {
   }
   controlWin.on('ready-to-show', () => {
     controlWin.webContents.openDevTools();
+  });
+  controlWin.webContents.on('did-finish-load', () => {
+    desktopCapturer.getSources({ types: ['screen'] }).then(async (sources) => {
+      controlWin.webContents.send('SET_SOURCE', sources[0].id);
+    });
   });
 }
 

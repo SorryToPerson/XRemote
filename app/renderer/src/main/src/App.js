@@ -7,8 +7,8 @@ function App() {
     ipcRenderer?.send('open-control');
   };
   return (
-    <div className="App">
-      <button onClick={handleShowControl}>点击打开控制窗口</button>
+    <div className="app">
+      <button onClick={handleShowControl}>打开控制窗口</button>
     </div>
   );
 }

@@ -22,10 +22,6 @@ function create() {
       path.resolve(__dirname, '../renderer/pages/main/index.html'),
     );
   }
-
-  mainWin.once('ready-to-show', () => {
-    mainWin.webContents.openDevTools();
-  });
 }
 
 module.exports = {
