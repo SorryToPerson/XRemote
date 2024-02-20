@@ -1,5 +1,5 @@
 const { ipcMain } = require('electron');
-const { handleKey, handleMouse } = require('./robot');
+const { handleKeyDown, handleMouseUp } = require('./robot');
 const { create: createControlWindow } = require('./windows/control');
 
 function handleIPC() {
@@ -8,10 +8,10 @@ function handleIPC() {
   });
   ipcMain.on('robot', async (e, data) => {
     const { type, event } = data;
-    if (type === 'mouse') {
-      handleMouse(event);
-    } else if (type === 'key') {
-      handleKey(event);
+    if (type === 'mouseUp') {
+      handleMouseUp(event);
+    } else if (type === 'keyDown') {
+      handleKeyDown(event);
     }
   });
 }

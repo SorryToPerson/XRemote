@@ -9,9 +9,20 @@
     />
     <meta name="theme-color" content="#000000" />
     <title>React App</title>
+    <style>
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+      video {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
   </head>
   <body>
-    <video style="width: 900; height: 600" id="myVideo"></video>
+    <video id="myVideo"></video>
     <script>
       // 获取设备摄像头
       // function play() {
@@ -60,9 +71,9 @@
         }
       });
 
-      window.addEventListener('mousemove', (e) => {
+      window.addEventListener('mouseup', (e) => {
         ipcRenderer.send('robot', {
-          type: 'mouse',
+          type: 'mouseUp',
           event: {
             clientX: e.clientX,
             clientY: e.clientY,
@@ -71,8 +82,8 @@
               height: window.screen.height,
             },
             videoSize: {
-              width: video.clientWidth,
-              height: video.clientHeight,
+              width: video.getBoundingClientRect().width,
+              height: video.getBoundingClientRect().height,
             },
           },
         });
@@ -80,7 +91,7 @@
 
       window.addEventListener('keyup', (e) => {
         ipcRenderer.send('robot', {
-          type: 'key',
+          type: 'keyDown',
           event: {
             keyCode: e.keyCode,
             meta: e.metaKey,
