@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self' 'unsafe-inline';"
+    />
+    <meta name="theme-color" content="#000000" />
+    <title>React App</title>
+  </head>
+  <body>
+    <video id="myVideo"></video>
+    <script>
+      function play() {
+        navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+          const video = document.getElementById('myVideo');
+          video.srcObject = stream;
+          video.onloadedmetadata = function () {
+            video.play();
+          };
+        });
+      }
+
+      play();
+    </script>
+  </body>
+</html>
