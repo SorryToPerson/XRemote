@@ -11,7 +11,7 @@
     <title>React App</title>
   </head>
   <body>
-    <video id="myVideo"></video>
+    <video style="width: 900; height: 600" id="myVideo"></video>
     <script>
       // 获取设备摄像头
       // function play() {
@@ -27,10 +27,10 @@
       // play();
 
       const { ipcRenderer } = window?.electron;
+      const video = document.getElementById('myVideo');
 
       function handleStream(stream) {
         console.log(stream);
-        const video = document.getElementById('myVideo');
         video.srcObject = stream;
         video.onloadedmetadata = (e) => video.play();
       }
@@ -39,7 +39,7 @@
         console.log(e);
       }
 
-      ipcRenderer.on('SET_SOURCE', async (sourceId) => {
+      ipcRenderer.on('set-source', async (sourceId) => {
         try {
           const stream = await navigator.mediaDevices.getUserMedia({
             audio: false,
@@ -58,6 +58,37 @@
         } catch (e) {
           handleError(e);
         }
+      });
+
+      window.addEventListener('mousemove', (e) => {
+        ipcRenderer.send('robot', {
+          type: 'mouse',
+          event: {
+            clientX: e.clientX,
+            clientY: e.clientY,
+            screenSize: {
+              width: window.screen.width,
+              height: window.screen.height,
+            },
+            videoSize: {
+              width: video.clientWidth,
+              height: video.clientHeight,
+            },
+          },
+        });
+      });
+
+      window.addEventListener('keyup', (e) => {
+        ipcRenderer.send('robot', {
+          type: 'key',
+          event: {
+            keyCode: e.keyCode,
+            meta: e.metaKey,
+            shift: e.shiftKey,
+            alt: e.altKey,
+            ctrl: e.ctrlKey,
+          },
+        });
       });
     </script>
   </body>

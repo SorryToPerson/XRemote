@@ -29,7 +29,7 @@ function create() {
   });
   controlWin.webContents.on('did-finish-load', () => {
     desktopCapturer.getSources({ types: ['screen'] }).then(async (sources) => {
-      controlWin.webContents.send('SET_SOURCE', sources[0].id);
+      controlWin.webContents.send('set-source', sources[0].id);
     });
   });
 }
